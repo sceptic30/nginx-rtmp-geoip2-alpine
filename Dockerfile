@@ -20,8 +20,6 @@ RUN set -x \
   && make install \
   && apk del .build-deps
 
-# TODO fix issue with non zero return code
-
 RUN ldconfig || :
 
 # Install nginx
