@@ -74,7 +74,7 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
     --with-file-aio \
     --with-http_v2_module \
     --add-dynamic-module=/ngx_http_geoip2_module \
-    --add-module=/nginx-rtmp-module \
+    --add-dynamic-module=/nginx-rtmp-module \
 " \
     && addgroup -S nginx \
     && adduser -D -S -h /var/cache/nginx -s /sbin/nologin -G nginx nginx \
