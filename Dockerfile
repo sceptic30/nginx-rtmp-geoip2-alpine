@@ -2,7 +2,7 @@ FROM alpine:latest
 
 COPY GeoLite2-Country.mmdb /usr/share/geoip/
 
-# Install libmaxminddb and ngx_http_geoip2_module
+# ngx_http_geoip2_module & libmaxminddb installation
 
 ENV MAXMIND_VERSION=1.4.2
 
@@ -20,14 +20,11 @@ RUN set -x \
   && make install \
   && apk del .build-deps
 
-# TODO fix issue with non zero return code
-
 RUN ldconfig || :
 
-# Install nginx
+# Nginx installation 
 
 ENV NGINX_VERSION 1.17.6
-
 RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 && CONFIG="\
     --prefix=/etc/nginx \
@@ -173,7 +170,7 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY vh-default.conf /etc/nginx/conf.d/default.conf
+
 EXPOSE 80 443
 STOPSIGNAL SIGTERM
-ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["nginx", "-g", "daemon off;"]
