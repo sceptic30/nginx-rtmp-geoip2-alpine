@@ -1,5 +1,7 @@
 FROM alpine:latest
 
+LABEL maintainer="nikolas@admintuts.tech"
+
 COPY GeoLite2-Country.mmdb /usr/share/geoip/
 
 # ngx_http_geoip2_module & libmaxminddb installation
