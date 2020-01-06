@@ -26,7 +26,7 @@ RUN ldconfig || :
 
 # Nginx installation 
 
-ENV NGINX_VERSION 1.17.6
+ENV NGINX_VERSION 1.17.7
 RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 && CONFIG="\
     --prefix=/etc/nginx \
