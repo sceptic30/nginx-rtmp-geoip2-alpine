@@ -1,7 +1,5 @@
 FROM alpine:latest
 
-LABEL maintainer="nikolas@admintuts.tech"
-
 COPY GeoLite2-Country.mmdb /usr/share/geoip/
 
 # ngx_http_geoip2_module & libmaxminddb installation
@@ -26,7 +24,7 @@ RUN ldconfig || :
 
 # Nginx installation 
 
-ENV NGINX_VERSION 1.17.7
+ENV NGINX_VERSION 1.17.8
 RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 && CONFIG="\
     --prefix=/etc/nginx \
