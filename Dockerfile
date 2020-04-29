@@ -70,6 +70,7 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
     --with-compat \
     --with-file-aio \
     --with-http_v2_module \
+    --with-openssl-opt="enable-tls1_3" \
     --add-dynamic-module=/ngx_http_geoip2_module \
     --add-dynamic-module=/nginx-rtmp-module \
 " \
@@ -160,7 +161,7 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
     && apk del .gettext \
     && mv /tmp/envsubst /usr/local/bin/ \
     \
-    # Bring in tzdata so users could set the timezones through the environment
+    # Bring in tzdata and openssl so users could set the timezones and tls1.3 through the environment
     # variables
     && apk add --no-cache tzdata \
     \
