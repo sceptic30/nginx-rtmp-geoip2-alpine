@@ -178,7 +178,7 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
     && chown -R nginx:nginx /usr/share/nginx \
     && chown -R nginx:nginx /etc/nginx \
     && chown -R nginx:nginx /var/www \
-    && chown -R root:nginx /etc/letsencrypt \
+    && chown -R nginx:root /etc/letsencrypt \
     && touch /var/run/nginx.pid  \
     && chown -R nginx:nginx /var/run/nginx.pid \
     && chmod 700 -R /etc/nginx \
