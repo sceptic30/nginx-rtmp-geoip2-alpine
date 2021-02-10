@@ -169,14 +169,15 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
     && ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log \
     # Give nginx users appropriate permissions to eccential directories recursively
+
+    && mkdir /etc/letsencrypt \
+    && mkdir /var/lib/letsencrypt \
+    && mkdir /var/www \
     && chown -R nginx:nginx /var/log \
     && chown -R nginx:nginx /var/cache/nginx \
     && chown -R nginx:nginx /usr/share/nginx \
     && chown -R nginx:nginx /etc/nginx \
     && chown -R nginx:nginx /var/www \
-    && mkdir /etc/letsencrypt \
-    && mkdir /var/lib/letsencrypt \
-    && mkdir /var/www/html \
     && chown -R root:nginx /etc/letsencrypt \
     && touch /var/run/nginx.pid  \
     && chown -R nginx:nginx /var/run/nginx.pid \
@@ -184,7 +185,7 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
     && chmod 644 -R /etc/letsencrypt \
     && chmod 644 -R /var/lib/letsencrypt \
     && chmod 755 -R /usr/share/nginx \
-    && chmod 755 -R /var/www/html
+    && chmod 755 -R /var/www
 
 
 
