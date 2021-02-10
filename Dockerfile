@@ -5,8 +5,8 @@ COPY GeoLite2-Country.mmdb /usr/share/geoip/
 # ngx_http_geoip2_module & libmaxminddb installation
 
 ENV MAXMIND_VERSION=1.5.0
-ARG NGINX_HOST_GUI=114
-ENV NGINX_HOST_GUI $NGINX_HOST_GUI
+ARG HOST_NGINX_GUI=114
+ENV HOST_NGINX_GUI $HOST_NGINX_GUI
 
 RUN set -x \
   && apk add --no-cache --virtual .build-deps \
@@ -76,8 +76,8 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
     --add-dynamic-module=/ngx_http_geoip2_module \
     --add-dynamic-module=/nginx-rtmp-module \
 " \
-    && addgroup -S nginx -g $NGINX_HOST_GUI \
-    && adduser -D -S -h /var/cache/nginx -s /sbin/nologin -G nginx -u $NGINX_HOST_GUI nginx \
+    && addgroup -S nginx -g $HOST_NGINX_GUI \
+    && adduser -D -S -h /var/cache/nginx -s /sbin/nologin -G nginx -u $HOST_NGINX_GUI nginx \
     && apk add --no-cache --virtual .build-deps \
         gcc \
         git \
