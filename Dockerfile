@@ -182,8 +182,8 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
     && touch /var/run/nginx.pid  \
     && chown -R nginx:nginx /var/run/nginx.pid \
     && chmod 700 -R /etc/nginx \
-    && chmod 644 -R /etc/letsencrypt \
-    && chmod 644 -R /var/lib/letsencrypt \
+    && chmod 660 -R /etc/letsencrypt \
+    && chmod 660 -R /var/lib/letsencrypt \
     && chmod 755 -R /usr/share/nginx \
     && chmod 755 -R /var/www
 
