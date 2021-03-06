@@ -1,12 +1,13 @@
 FROM alpine:latest
 
-COPY GeoLite2-Country.mmdb /usr/share/geoip/
+# Host Specific Variable
+ARG HOST_NGINX_GUI=114
+ENV HOST_NGINX_GUI $HOST_NGINX_GUI
 
 # ngx_http_geoip2_module & libmaxminddb installation
 
 ENV MAXMIND_VERSION=1.5.0
-ARG HOST_NGINX_GUI=114
-ENV HOST_NGINX_GUI $HOST_NGINX_GUI
+COPY GeoLite2-Country.mmdb /usr/share/geoip/
 
 RUN set -x \
   && apk add --no-cache --virtual .build-deps \
@@ -166,7 +167,8 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
     # Bring in tzdata and openssl so users could set the timezones and tls1.3 through the environment
     # variables
     && apk add --no-cache tzdata \
-    \
+    && mkdir /docker-entrypoint.d \
+    && apk add --no-cache curl ca-certificates \
     # forward request and error logs to docker log collector
     && ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log \
@@ -190,6 +192,11 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY vh-default.conf /etc/nginx/conf.d/default.conf
+COPY docker-entrypoint.sh /
+COPY 10-listen-on-ipv6-by-default.sh /docker-entrypoint.d
+COPY 20-envsubst-on-templates.sh /docker-entrypoint.d
+COPY 30-tune-worker-processes.sh /docker-entrypoint.d
+ENTRYPOINT ["/docker-entrypoint.sh"]
 USER nginx
 EXPOSE 80 443
 STOPSIGNAL SIGTERM
