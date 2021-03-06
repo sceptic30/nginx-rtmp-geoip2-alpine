@@ -1,10 +1,10 @@
-sudo: required
+sudo: true
 services:
   - docker
 
 before_install:
-  - docker build -t admintuts/nginx:1.19.7-rtmp-geoip2-alpine --np-cache
-
+  - docker build . -t admintuts/nginx:1.19.7-rtmp-geoip2-alpine --no-cache
+  
 script:
   - docker run -t --name webserver --rm  admintuts/nginx:1.19.7-rtmp-geoip2-alpine nginx -v
 
