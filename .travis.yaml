@@ -1,4 +1,4 @@
-sudo: rew
+sudo: required
 services:
   - docker
 
