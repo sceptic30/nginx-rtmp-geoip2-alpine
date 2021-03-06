@@ -4,7 +4,7 @@
 set -e
 
 ME=$(basename $0)
-DEFAULT_CONF_FILE="etc/nginx/conf.d/default.conf"
+DEFAULT_CONF_FILE="etc/nginx/conf.d/vh-default.conf"
 
 # check if we have ipv6 available
 if [ ! -f "/proc/net/if_inet6" ]; then
