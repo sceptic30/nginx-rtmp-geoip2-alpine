@@ -18,6 +18,27 @@ docker run -d --rm --name webserver -p 80:80 your_image_tag
 
 For more details please visit [Admintuts.net](https://admintuts.net/server-admin/docker/custom-nginx-docker-image-geoip2-rtmp-support/#final-nginx-dockerfile-with-geoip2-rtmp-tlsv1-3-support)
 
+## How to enable GeoIP2 database
+You must bind mount your database file (GeoLite2-Country.mmdb or GeoLite2-City.mmdb) to the container file system appropriate location. This location is 
+```bash
+/usr/share/geoip/
+```
+In a docker-compose file that would look like:
+```sh
+  webserver:
+    image: admintuts/nginx:1.19.7-rtmp-geoip2-alpine
+    container_name: webserver
+    hostname: webserver
+    restart: always
+    ports:
+        - "80:80"
+        - "443:443"
+    volumes:
+        - ./geoip-db/GeoLite2-City.mmdb:/usr/share/geoip/GeoLite2-City.mmdb
+    networks:
+        - default
+```
+
 ## License
 
 MIT

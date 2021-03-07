@@ -29,7 +29,7 @@ if [ "$1" = "nginx" -o "$1" = "nginx-debug" ]; then
             esac
         done
 
-        echo >&3 "$0: Entrypoint operations complete. Ready to accept connections."
+        echo >&3 "$0: Entrypoint operations complete. Ready to load binary."
     else
         echo >&3 "$0: No files found in /docker-entrypoint.d/, skipping configuration"
     fi
