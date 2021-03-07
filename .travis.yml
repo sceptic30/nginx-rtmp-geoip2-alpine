@@ -5,6 +5,9 @@ services:
 - docker
 
 before_install:
+- chmod +x docker-entrypoint.sh
+- chmod +x envsubst-on-templates.sh
+- chmod +x tune-worker-processes.sh
 - docker build . -t $DOCKER_HUB_ID/nginx:1.19.7-rtmp-geoip2-alpine --no-cache
 
 script:
