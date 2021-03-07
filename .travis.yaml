@@ -1,9 +1,15 @@
 language: bash
-
 sudo: required
-
+dist: focal
 services:
-  - docker
+- docker
+
+before_install:
+- docker build . -t admintuts/nginx:1.19.7-rtmp-geoip2-alpine --no-cache
 
 script:
-  - echo "hello world"
+- docker run -t --name webserver --rm  admintuts/nginx:1.19.7-rtmp-geoip2-alpine nginx -v
+
+after_success:
+- echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_ID" --password-stdin
+- docker push admintuts/nginx:1.19.7-rtmp-geoip2-alpine
