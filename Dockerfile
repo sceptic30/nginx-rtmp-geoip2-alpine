@@ -7,7 +7,7 @@ ENV HOST_NGINX_GUI $HOST_NGINX_GUI
 
 # ngx_http_geoip2_module & libmaxminddb installation
 
-ENV MAXMIND_VERSION=1.5.0
+ENV MAXMIND_VERSION=1.5.2
 COPY GeoLite2-Country.mmdb /usr/share/geoip/
 
 RUN set -x \
