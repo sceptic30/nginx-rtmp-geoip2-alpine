@@ -2,8 +2,8 @@ FROM alpine:latest
 
 LABEL maintainer="Nikolas S <nikolas@admintuts.net>"
 # Host Specific Variable
-ARG HOST_NGINX_GUI=114
-ENV HOST_NGINX_GUI $HOST_NGINX_GUI
+ARG NGINX_GUI=2000
+ENV NGINX_GUI $NGINX_GUI
 
 # ngx_http_geoip2_module & libmaxminddb installation
 
@@ -78,8 +78,8 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
     --add-dynamic-module=/ngx_http_geoip2_module \
     --add-dynamic-module=/nginx-rtmp-module \
 " \
-    && addgroup -S nginx -g $HOST_NGINX_GUI \
-    && adduser -D -S -h /var/cache/nginx -s /sbin/nologin -G nginx -u $HOST_NGINX_GUI nginx \
+    && addgroup -S nginx -g $NGINX_GUI \
+    && adduser -D -S -h /var/cache/nginx -s /sbin/nologin -G nginx -u $NGINX_GUI nginx \
     && apk add --no-cache --virtual .build-deps \
         gcc \
         git \
