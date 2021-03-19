@@ -206,6 +206,6 @@ COPY envsubst-on-templates.sh /docker-entrypoint.d
 COPY tune-worker-processes.sh /docker-entrypoint.d
 ENTRYPOINT ["/docker-entrypoint.sh"]
 USER nginx
-EXPOSE 80 443
+EXPOSE 3080 3443
 STOPSIGNAL SIGTERM
 CMD ["nginx", "-g", "daemon off;"]
