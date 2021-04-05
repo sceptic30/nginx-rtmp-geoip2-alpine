@@ -31,8 +31,8 @@ In a docker-compose file that would look like:
     hostname: webserver
     restart: always
     ports:
-        - "80:80"
-        - "443:443"
+        - "80:3080"
+        - "443:3443"
     volumes:
         - ./geoip-db/GeoLite2-City.mmdb:/usr/share/geoip/GeoLite2-City.mmdb
     networks:
