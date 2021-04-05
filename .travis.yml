@@ -8,11 +8,11 @@ before_install:
 - chmod +x docker-entrypoint.sh
 - chmod +x envsubst-on-templates.sh
 - chmod +x tune-worker-processes.sh
-- docker build . -t $DOCKER_HUB_ID/nginx:1.19.8-rtmp-geoip2-alpine --no-cache
+- docker build . -t $DOCKER_HUB_ID/nginx:1.19.9-rtmp-geoip2-alpine --no-cache
 
 script:
-- docker run -t --name webserver --rm  $DOCKER_HUB_ID/nginx:1.19.8-rtmp-geoip2-alpine nginx -v
+- docker run -t --name webserver --rm  $DOCKER_HUB_ID/nginx:1.19.9-rtmp-geoip2-alpine nginx -v
 
 after_success:
 - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_ID" --password-stdin
-- docker push $DOCKER_HUB_ID/nginx:1.19.8-rtmp-geoip2-alpine
+- docker push $DOCKER_HUB_ID/nginx:1.19.9-rtmp-geoip2-alpine
