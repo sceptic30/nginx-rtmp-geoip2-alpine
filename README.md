@@ -26,7 +26,7 @@ You must bind mount your database file (GeoLite2-Country.mmdb or GeoLite2-City.m
 In a docker-compose file that would look like:
 ```sh
   webserver:
-    image: admintuts/nginx:1.20-rtmp-geoip2-alpine
+    image: admintuts/nginx:1.20.0-rtmp-geoip2-alpine
     container_name: webserver
     hostname: webserver
     restart: always
