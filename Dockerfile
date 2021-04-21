@@ -28,7 +28,7 @@ RUN ldconfig || :
 
 # Nginx installation 
 
-ENV NGINX_VERSION 1.20
+ENV NGINX_VERSION 1.20.0
 RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 && CONFIG="\
     --prefix=/etc/nginx \
@@ -101,8 +101,8 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
     && found=''; \
     for server in \
         ha.pool.sks-keyservers.net \
-        hkp://keyserver.ubuntu.com:80 \
-        hkp://p80.pool.sks-keyservers.net:80 \
+        p80.pool.sks-keyservers.net \
+        keyserver.ubuntu.com \
         pgp.mit.edu \
     ; do \
         echo "Fetching GPG key $GPG_KEYS from $server"; \
