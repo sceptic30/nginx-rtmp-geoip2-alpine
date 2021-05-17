@@ -112,7 +112,7 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
     gpg --batch --verify nginx.tar.gz.asc nginx.tar.gz \
     && rm -rf "$GNUPGHOME" nginx.tar.gz.asc \
     && mkdir -p /usr/src \
-    && git clone https://github.com/sergey-dryabzhinsky/nginx-rtmp-module.git \
+    && git clone https://github.com/sceptic30/nginx-rtmp-module.git \
     && tar -zxC /usr/src -f nginx.tar.gz \
     && rm nginx.tar.gz \
     && cd /usr/src/nginx-$NGINX_VERSION \
