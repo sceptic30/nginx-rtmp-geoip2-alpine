@@ -1,22 +1,16 @@
 #!/bin/sh
 # vim:sw=2:ts=2:sts=2:et
-
 set -eu
-
 LC_ALL=C
 ME=$( basename "$0" )
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-
 [ "${NGINX_ENTRYPOINT_WORKER_PROCESSES_AUTOTUNE:-}" ] || exit 0
-
 touch /etc/nginx/nginx.conf 2>/dev/null || { echo >&2 "$ME: error: can not modify /etc/nginx/nginx.conf (read-only file system?)"; exit 0; }
-
 ceildiv() {
   num=$1
   div=$2
   echo $(( (num + div - 1) / div ))
 }
-
 get_cpuset() {
   cpusetroot=$1
   cpusetfile=$2
@@ -49,7 +43,6 @@ get_quota() {
   [ "$ncpu" -gt 0 ] || return
   echo "$ncpu"
 }
-
 get_quota_v2() {
   cpuroot=$1
   ncpu=0
@@ -62,7 +55,6 @@ get_quota_v2() {
   [ "$ncpu" -gt 0 ] || return
   echo "$ncpu"
 }
-
 get_cgroup_v1_path() {
   needle=$1
   found=
@@ -126,7 +118,6 @@ __EOF__
   esac
   echo "$foundroot"
 }
-
 get_cgroup_v2_path() {
   found=
   foundroot=
@@ -160,28 +151,22 @@ __EOF__
   esac
   echo "$foundroot"
 }
-
 ncpu_online=$( getconf _NPROCESSORS_ONLN )
 ncpu_cpuset=
 ncpu_quota=
 ncpu_cpuset_v2=
 ncpu_quota_v2=
-
 cpuset=$( get_cgroup_v1_path "cpuset" )
 [ "$cpuset" ] && ncpu_cpuset=$( get_cpuset "$cpuset" "cpuset.effective_cpus" )
 [ "$ncpu_cpuset" ] || ncpu_cpuset=$ncpu_online
-
 cpu=$( get_cgroup_v1_path "cpu" )
 [ "$cpu" ] && ncpu_quota=$( get_quota "$cpu" )
 [ "$ncpu_quota" ] || ncpu_quota=$ncpu_online
-
 cgroup_v2=$( get_cgroup_v2_path )
 [ "$cgroup_v2" ] && ncpu_cpuset_v2=$( get_cpuset "$cgroup_v2" "cpuset.cpus.effective" )
 [ "$ncpu_cpuset_v2" ] || ncpu_cpuset_v2=$ncpu_online
-
 [ "$cgroup_v2" ] && ncpu_quota_v2=$( get_quota_v2 "$cgroup_v2" )
 [ "$ncpu_quota_v2" ] || ncpu_quota_v2=$ncpu_online
-
 ncpu=$( printf "%s\n%s\n%s\n%s\n%s\n" \
                "$ncpu_online" \
                "$ncpu_cpuset" \
@@ -190,5 +175,4 @@ ncpu=$( printf "%s\n%s\n%s\n%s\n%s\n" \
                "$ncpu_quota_v2" \
                | sort -n \
                | head -n 1 )
-
 sed -i.bak -r 's/^(worker_processes)(.*)$/# Commented out by '"$ME"' on '"$(date)"'\n#\1\2\n\1 '"$ncpu"';/' /etc/nginx/nginx.conf
