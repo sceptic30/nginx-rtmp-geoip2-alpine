@@ -181,7 +181,7 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
     && mkdir /etc/letsencrypt \
     && mkdir /var/lib/letsencrypt \
     && mkdir /var/log/letsencrypt \
-    && mkdir /var/www \
+    && mkdir -p /var/www/html \
     && chown -R nginx:nginx /var/log \
     && chown -R nginx:nginx /var/cache/nginx \
     && chown -R nginx:nginx /usr/share/nginx \
