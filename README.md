@@ -12,7 +12,7 @@ docker build . -t your_image_tag
 ```
 ## Run the image
 ```sh
-docker run -d --rm --name webserver -p 80:80 your_image_tag
+docker run -d --rm --name webserver -p 80:3080 your_image_tag
 ```
 > Current Image running in non-priviledged mode, under the user 'nginx'
 
