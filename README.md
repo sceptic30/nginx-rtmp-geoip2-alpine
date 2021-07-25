@@ -39,7 +39,59 @@ In a docker-compose file that would look like:
     networks:
         - default
 ```
-
+## Running With Kubernetes Statefulset
+```yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nginx
+  namespace: production
+  labels:
+    app: nginx
+spec:
+  serviceName: nginx
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: admintuts/nginx:1.21.1-rtmp-geoip2-alpine
+          ports:
+          - containerPort: 3080
+            name: nginx-http
+          - containerPort: 3443
+            name: nginx-https
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "180m"
+          volumeMounts:
+          - name: webserver-config
+            mountPath: /etc/nginx/nginx.conf
+            subPath: nginx.conf
+          - name: webserver-config
+            mountPath: /etc/nginx/conf.d/nginx-http.conf
+            subPath: nginx-http.conf
+          - mountPath: /var/www/html
+            name: nginx-vol
+      restartPolicy: Always
+      volumes:
+        - name: webserver-config
+          configMap:
+            name: webserver-config
+        - name: nginx-vol
+          persistentVolumeClaim:
+             claimName: nginx-pvc
+```
 ## License
 
 MIT
