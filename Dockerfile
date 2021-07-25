@@ -11,7 +11,9 @@ ENV MAXMIND_VERSION=1.6.0
 COPY GeoLite2-Country.mmdb /usr/share/geoip/
 
 RUN set -x \
-  && apk add --no-cache --virtual .build-deps \
+  && apk --no-cache update \
+  && apk --no-cache upgrade --available \
+  && apk --no-cache add --virtual .build-deps \
     alpine-sdk \
     perl \
   && git clone https://github.com/leev/ngx_http_geoip2_module /ngx_http_geoip2_module \
