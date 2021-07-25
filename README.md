@@ -74,23 +74,23 @@ spec:
             limits:
               memory: "128Mi"
               cpu: "180m"
-          volumeMounts:
-          - name: webserver-config
-            mountPath: /etc/nginx/nginx.conf
-            subPath: nginx.conf
-          - name: webserver-config
-            mountPath: /etc/nginx/conf.d/nginx-http.conf
-            subPath: nginx-http.conf
-          - mountPath: /var/www/html
-            name: nginx-vol
+#          volumeMounts:
+#          - name: webserver-config
+#            mountPath: /etc/nginx/nginx.conf
+#            subPath: nginx.conf
+#          - name: webserver-config
+#            mountPath: /etc/nginx/conf.d/nginx-http.conf
+#            subPath: nginx-http.conf
+#          - mountPath: /var/www/html
+#            name: nginx-vol
       restartPolicy: Always
-      volumes:
-        - name: webserver-config
-          configMap:
-            name: webserver-config
-        - name: nginx-vol
-          persistentVolumeClaim:
-             claimName: nginx-pvc
+#      volumes:
+#        - name: webserver-config
+#          configMap:
+#            name: webserver-config
+#        - name: nginx-vol
+#          persistentVolumeClaim:
+#             claimName: nginx-pvc
 ```
 ## License
 
