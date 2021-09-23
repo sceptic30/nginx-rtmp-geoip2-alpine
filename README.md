@@ -1,6 +1,6 @@
 # NGINX with TLSv1.3 support &amp; built-in RTMP Media Streaming Server with GeoIP2 country database.
 
-[![Build Status](https://www.travis-ci.com/sceptic30/nginx-rtmp-geoip2-alpine.svg?branch=master)](https://www.travis-ci.com/sceptic30/nginx-rtmp-geoip2-alpine) ![Docker Pulls](https://img.shields.io/docker/pulls/admintuts/nginx) ![Nginx Version](https://img.shields.io/badge/Nginx-1.21.1-brightgreen)
+[![Build Status](https://www.travis-ci.com/sceptic30/nginx-rtmp-geoip2-alpine.svg?branch=master)](https://www.travis-ci.com/sceptic30/nginx-rtmp-geoip2-alpine) ![Docker Pulls](https://img.shields.io/docker/pulls/admintuts/nginx) ![Nginx Version](https://img.shields.io/badge/Nginx-1.21.3-brightgreen)
 
 ## Building The Image
 
@@ -27,7 +27,7 @@ You must bind mount your database file (GeoLite2-Country.mmdb or GeoLite2-City.m
 In a docker-compose file that would look like:
 ```sh
   webserver:
-    image: admintuts/nginx:1.21.1-rtmp-geoip2-alpine
+    image: admintuts/nginx:1.21.3-rtmp-geoip2-alpine
     container_name: webserver
     hostname: webserver
     restart: always
@@ -61,7 +61,7 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: admintuts/nginx:1.21.1-rtmp-geoip2-alpine
+          image: admintuts/nginx:1.21.3-rtmp-geoip2-alpine
           ports:
           - containerPort: 3080
             name: nginx-http
