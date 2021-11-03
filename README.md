@@ -1,6 +1,6 @@
 # NGINX with TLSv1.3 support &amp; built-in RTMP Media Streaming Server with GeoIP2 country database.
 
-[![Build Status](https://www.travis-ci.com/sceptic30/nginx-rtmp-geoip2-alpine.svg?branch=master)](https://www.travis-ci.com/sceptic30/nginx-rtmp-geoip2-alpine) ![Docker Pulls](https://img.shields.io/docker/pulls/admintuts/nginx) ![Nginx Version](https://img.shields.io/badge/Nginx-1.21.3-brightgreen)
+[![Build Status](https://www.travis-ci.com/sceptic30/nginx-rtmp-geoip2-alpine.svg?branch=master)](https://www.travis-ci.com/sceptic30/nginx-rtmp-geoip2-alpine) ![Docker Pulls](https://img.shields.io/docker/pulls/admintuts/nginx) ![Nginx Version](https://img.shields.io/badge/Nginx-1.21.4-brightgreen)
 
 ## Building The Image
 
@@ -9,7 +9,6 @@ git clone https://github.com/sceptic30/nginx-rtmp-geoip2-alpine
 cd nginx-rtmp-geoip2-alpine
 chmod +x docker-entrypoint.sh envsubst-on-templates.sh tune-worker-processes.sh
 docker build . -t your_image_tag
-
 ```
 ## Run the image
 ```sh
@@ -27,7 +26,7 @@ You must bind mount your database file (GeoLite2-Country.mmdb or GeoLite2-City.m
 In a docker-compose file that would look like:
 ```sh
   webserver:
-    image: admintuts/nginx:1.21.3-rtmp-geoip2-alpine
+    image: admintuts/nginx:1.21.4-rtmp-geoip2-alpine
     container_name: webserver
     hostname: webserver
     restart: always
@@ -61,7 +60,7 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: admintuts/nginx:1.21.3-rtmp-geoip2-alpine
+          image: admintuts/nginx:1.21.4-rtmp-geoip2-alpine
           ports:
           - containerPort: 3080
             name: nginx-http
