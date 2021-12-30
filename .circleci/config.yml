@@ -3,6 +3,7 @@ version: 2.1
 jobs:
   build:
     machine: true
+    working_directory: ~/nginx-build
     steps:
       - checkout
       - run: |
@@ -13,11 +14,13 @@ jobs:
           sudo docker build . -t $DOCKER_HUB_ID/nginx:1.21.4-rtmp-geoip2-alpine --no-cache
   test:
     machine: true
+    working_directory: ~/nginx-build
     steps:
       - run: |
           docker run -t --name webserver --rm  $DOCKER_HUB_ID/nginx:1.21.4-rtmp-geoip2-alpine nginx -v
   
   deploy:
+    working_directory: ~/nginx-build
     machine: true
     steps:
       - run: docker push $DOCKER_HUB_ID/nginx:1.21.4-rtmp-geoip2-alpine
