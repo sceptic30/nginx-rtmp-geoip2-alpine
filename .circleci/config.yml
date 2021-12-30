@@ -3,11 +3,10 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: ubuntu:latest
+      - image: cimg/base
         auth:
-          username: $DOCKER_HUB_ID
-          
-          password: $DOCKER_HUB_PASSWORD
+          username: $CIRCLECI_ID
+          password: $CIRCLECI_PASSWORD
     steps:
        - checkout
        - run: |
@@ -18,7 +17,7 @@ jobs:
 
   test:
     docker:
-      - image: ubuntu:latest
+      - image: cimg/base
         auth:
           username: $DOCKER_HUB_ID
           password: $DOCKER_HUB_PASSWORD
@@ -29,7 +28,7 @@ jobs:
   
   deploy:
     docker:
-      - image: ubuntu:latest
+      - image: cimg/base
         auth:
           username: $DOCKER_HUB_ID
           password: $DOCKER_HUB_PASSWORD
