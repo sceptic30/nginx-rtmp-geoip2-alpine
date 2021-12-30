@@ -15,6 +15,7 @@ jobs:
           chmod +x docker-entrypoint.sh
           chmod +x envsubst-on-templates.sh
           chmod +x tune-worker-processes.sh
+          chmod +x env.sh
           source env.sh
           sudo docker build . -t $DOCKER_HUB_ID/nginx:$NGINX_VERSION-rtmp-geoip2-alpine --no-cache
   test:
@@ -22,7 +23,6 @@ jobs:
     working_directory: ~/nginx-build
     steps:
       - run: |
-          source env.sh
           docker run -t --name webserver --rm  $DOCKER_HUB_ID/nginx:$NGINX_VERSION-rtmp-geoip2-alpine nginx -v
   
   deploy:
