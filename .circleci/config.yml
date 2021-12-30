@@ -1,39 +1,34 @@
 version: 2.1
 
+executors:
+  machine-executor:
+    machine:
+      image: ubuntu-2004:202111-02
 jobs:
   build:
-    docker:
-      - image: ubuntu:latest
-        auth:
-          username: $DOCKER_HUB_ID
-          password: $DOCKER_HUB_PASSWORD
-    steps:
-       - checkout
-       - run: |
-          chmod +x docker-entrypoint.sh
-          chmod +x envsubst-on-templates.sh
-          chmod +x tune-worker-processes.sh
-          docker build . -t $DOCKER_HUB_ID/nginx:1.21.4-rtmp-geoip2-alpine --no-cache
-
-  test:
-    docker:
-      - image: ubuntu:latest
-        auth:
-          username: $DOCKER_HUB_ID
-          password: $DOCKER_HUB_PASSWORD
+    executor: machine-executor
+    working_directory: ~/nginx-build
     steps:
       - checkout
       - run: |
-          docker run -t --name webserver --rm  $DOCKER_HUB_ID/nginx:1.21.4-rtmp-geoip2-alpine nginx -v
+          echo "$DOCKER_HUB_PASSWORD" | docker login --username $DOCKER_HUB_ID --password-stdin
+          chmod +x docker-entrypoint.sh
+          chmod +x envsubst-on-templates.sh
+          chmod +x tune-worker-processes.sh
+          source env.sh
+          sudo docker build . -t $DOCKER_HUB_ID/nginx:$NGINX_VERSION-rtmp-geoip2-alpine --no-cache
+  test:
+    executor: machine-executor
+    working_directory: ~/nginx-build
+    steps:
+      - run: |
+          docker run -t --name webserver --rm  $DOCKER_HUB_ID/nginx:$NGINX_VERSION-rtmp-geoip2-alpine nginx -v
   
   deploy:
-    docker:
-      - image: ubuntu:latest
-        auth:
-          username: $DOCKER_HUB_ID
-          password: $DOCKER_HUB_PASSWORD
+    executor: machine-executor
+    working_directory: ~/nginx-build
     steps:
-      - run: docker push $DOCKER_HUB_ID/nginx:1.21.4-rtmp-geoip2-alpine
+      - run: docker push $DOCKER_HUB_ID/nginx:$NGINX_VERSION-rtmp-geoip2-alpine
 
 workflows:
   build_and_test:
