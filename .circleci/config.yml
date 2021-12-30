@@ -23,7 +23,10 @@ jobs:
     executor: machine-executor
     working_directory: ~/nginx-build
     steps:
+      - checkout
       - run: |
+          chmod +x env.sh
+          source env.sh
           docker pull $DOCKER_HUB_ID/nginx:$NGINX_VERSION-rtmp-geoip2-alpine
           docker run -t --name webserver --rm  $DOCKER_HUB_ID/nginx:$NGINX_VERSION-rtmp-geoip2-alpine nginx -v
 
