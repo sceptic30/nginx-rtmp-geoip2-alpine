@@ -22,13 +22,16 @@ jobs:
     working_directory: ~/nginx-build
     steps:
       - run: |
+          source env.sh
           docker run -t --name webserver --rm  $DOCKER_HUB_ID/nginx:$NGINX_VERSION-rtmp-geoip2-alpine nginx -v
   
   deploy:
     executor: machine-executor
     working_directory: ~/nginx-build
     steps:
-      - run: docker push $DOCKER_HUB_ID/nginx:$NGINX_VERSION-rtmp-geoip2-alpine
+      - run: |
+          source env.sh
+          docker push $DOCKER_HUB_ID/nginx:$NGINX_VERSION-rtmp-geoip2-alpine
 
 workflows:
   build_and_test:
