@@ -8,6 +8,7 @@ before_install:
 - chmod +x docker-entrypoint.sh
 - chmod +x envsubst-on-templates.sh
 - chmod +x tune-worker-processes.sh
+- chmod +x env.sh
 - source env.sh
 - docker build . -t $DOCKER_HUB_ID/nginx:$NGINX_VERSION-rtmp-geoip2-alpine --no-cache
 
