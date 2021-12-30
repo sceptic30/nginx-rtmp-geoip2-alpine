@@ -1,8 +1,12 @@
 version: 2.1
 
+executors:
+  machine-executor:
+    machine:
+      image: ubuntu-2004:202111-02
 jobs:
   build:
-    machine: true
+    executor: machine-executor
     working_directory: ~/nginx-build
     steps:
       - checkout
@@ -11,19 +15,20 @@ jobs:
           chmod +x docker-entrypoint.sh
           chmod +x envsubst-on-templates.sh
           chmod +x tune-worker-processes.sh
-          sudo docker build . -t $DOCKER_HUB_ID/nginx:1.21.4-rtmp-geoip2-alpine --no-cache
+          source env.sh
+          sudo docker build . -t $DOCKER_HUB_ID/nginx:$NGINX_VERSION-rtmp-geoip2-alpine --no-cache
   test:
-    machine: true
+    executor: machine-executor
     working_directory: ~/nginx-build
     steps:
       - run: |
-          docker run -t --name webserver --rm  $DOCKER_HUB_ID/nginx:1.21.4-rtmp-geoip2-alpine nginx -v
+          docker run -t --name webserver --rm  $DOCKER_HUB_ID/nginx:$NGINX_VERSION-rtmp-geoip2-alpine nginx -v
   
   deploy:
+    executor: machine-executor
     working_directory: ~/nginx-build
-    machine: true
     steps:
-      - run: docker push $DOCKER_HUB_ID/nginx:1.21.4-rtmp-geoip2-alpine
+      - run: docker push $DOCKER_HUB_ID/nginx:$NGINX_VERSION-rtmp-geoip2-alpine
 
 workflows:
   build_and_test:
