@@ -4,6 +4,9 @@ jobs:
   build:
     docker:
       - image: cimg/base
+        auth:
+          username: $DOCKER_HUB_ID
+          password: $DOCKER_HUB_PASSWORD
     steps:
        - checkout
        - run: |
@@ -15,6 +18,9 @@ jobs:
   test:
     docker:
       - image: cimg/base
+        auth:
+          username: $DOCKER_HUB_ID
+          password: $DOCKER_HUB_PASSWORD
     steps:
       - checkout
       - run: |
