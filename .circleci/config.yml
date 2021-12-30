@@ -5,8 +5,8 @@ jobs:
     docker:
       - image: cimg/base
         auth:
-          username: $CIRCLECI_ID
-          password: $CIRCLECI_PASSWORD
+          username: $DOCKER_HUB_ID
+          password: $DOCKER_HUB_PASSWORD
     steps:
        - checkout
        - run: |
