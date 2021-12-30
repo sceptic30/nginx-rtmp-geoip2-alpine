@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: cimg/base:stable
+      - image: cimg/base:2021.04
         auth:
           username: $DOCKER_HUB_ID
           password: $DOCKER_HUB_PASSWORD
@@ -13,18 +13,18 @@ jobs:
           chmod +x docker-entrypoint.sh
           chmod +x envsubst-on-templates.sh
           chmod +x tune-worker-processes.sh
-          docker build . -t $DOCKER_HUB_ID/nginx:1.21.4-rtmp-geoip2-alpine --no-cache
+          sudo docker build . -t $DOCKER_HUB_ID/nginx:1.21.4-rtmp-geoip2-alpine --no-cache
 
   test:
     docker:
-      - image: cimg/base:stable
+      - image: cimg/base:2021.04
         auth:
           username: $DOCKER_HUB_ID
           password: $DOCKER_HUB_PASSWORD
     steps:
       - checkout
       - run: |
-          docker run -t --name webserver --rm  $DOCKER_HUB_ID/nginx:1.21.4-rtmp-geoip2-alpine nginx -v
+          sudo docker run -t --name webserver --rm  $DOCKER_HUB_ID/nginx:1.21.4-rtmp-geoip2-alpine nginx -v
   
   deploy:
     docker:
@@ -33,7 +33,7 @@ jobs:
           username: $DOCKER_HUB_ID
           password: $DOCKER_HUB_PASSWORD
     steps:
-      - run: docker push $DOCKER_HUB_ID/nginx:1.21.4-rtmp-geoip2-alpine
+      - run: sudo docker push $DOCKER_HUB_ID/nginx:1.21.4-rtmp-geoip2-alpine
 
 workflows:
   build_and_test:
