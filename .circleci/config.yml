@@ -11,24 +11,14 @@ jobs:
           chmod +x envsubst-on-templates.sh
           chmod +x tune-worker-processes.sh
           sudo docker build . -t $DOCKER_HUB_ID/nginx:1.21.4-rtmp-geoip2-alpine --no-cache
-
   test:
-    docker:
-      - image: cimg/base:stable
-        auth:
-          username: $DOCKER_HUB_ID
-          password: $DOCKER_HUB_PASSWORD
+    machine: true
     steps:
-      - checkout
       - run: |
           docker run -t --name webserver --rm  $DOCKER_HUB_ID/nginx:1.21.4-rtmp-geoip2-alpine nginx -v
   
   deploy:
-    docker:
-      - image: cimg/base:stable
-        auth:
-          username: $DOCKER_HUB_ID
-          password: $DOCKER_HUB_PASSWORD
+    machine: true
     steps:
       - run: docker push $DOCKER_HUB_ID/nginx:1.21.4-rtmp-geoip2-alpine
 
