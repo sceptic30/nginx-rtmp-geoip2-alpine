@@ -8,8 +8,10 @@ jobs:
           username: $DOCKER_HUB_ID
           password: $DOCKER_HUB_PASSWORD
     steps:
-       - checkout
-       - run: |
+      - setup_remote_docker:
+          version: 20.10.7
+      - checkout
+      - run: |
           chmod +x docker-entrypoint.sh
           chmod +x envsubst-on-templates.sh
           chmod +x tune-worker-processes.sh
@@ -17,14 +19,14 @@ jobs:
 
   test:
     docker:
-      - image: cimg/base:2021.04
+      - image: cimg/base:stable
         auth:
           username: $DOCKER_HUB_ID
           password: $DOCKER_HUB_PASSWORD
     steps:
       - checkout
       - run: |
-          sudo docker run -t --name webserver --rm  $DOCKER_HUB_ID/nginx:1.21.4-rtmp-geoip2-alpine nginx -v
+          docker run -t --name webserver --rm  $DOCKER_HUB_ID/nginx:1.21.4-rtmp-geoip2-alpine nginx -v
   
   deploy:
     docker:
@@ -33,7 +35,7 @@ jobs:
           username: $DOCKER_HUB_ID
           password: $DOCKER_HUB_PASSWORD
     steps:
-      - run: sudo docker push $DOCKER_HUB_ID/nginx:1.21.4-rtmp-geoip2-alpine
+      - run: docker push $DOCKER_HUB_ID/nginx:1.21.4-rtmp-geoip2-alpine
 
 workflows:
   build_and_test:
