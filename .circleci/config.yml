@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build:
     docker:
-      - image: cimg/base
+      - image: cimg/base:stable
         auth:
           username: $DOCKER_HUB_ID
           password: $DOCKER_HUB_PASSWORD
@@ -17,7 +17,7 @@ jobs:
 
   test:
     docker:
-      - image: cimg/base
+      - image: cimg/base:stable
         auth:
           username: $DOCKER_HUB_ID
           password: $DOCKER_HUB_PASSWORD
@@ -28,7 +28,7 @@ jobs:
   
   deploy:
     docker:
-      - image: cimg/base
+      - image: cimg/base:stable
         auth:
           username: $DOCKER_HUB_ID
           password: $DOCKER_HUB_PASSWORD
