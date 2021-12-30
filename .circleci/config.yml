@@ -2,16 +2,11 @@ version: 2.1
 
 jobs:
   build:
-    docker:
-      - image: cimg/base:2021.04
-        auth:
-          username: $DOCKER_HUB_ID
-          password: $DOCKER_HUB_PASSWORD
+    machine: true
     steps:
-      - setup_remote_docker:
-          version: 20.10.7
       - checkout
       - run: |
+          echo "$DOCKER_HUB_PASSWORD" | docker login --username $DOCKER_HUB_ID --password-stdin
           chmod +x docker-entrypoint.sh
           chmod +x envsubst-on-templates.sh
           chmod +x tune-worker-processes.sh
