@@ -8,6 +8,7 @@ ENV NGINX_GUI $NGINX_GUI
 # ngx_http_geoip2_module & libmaxminddb installation
 
 ENV MAXMIND_VERSION=1.7.1
+ENV NGINX_TS_MODULE_VERSION=0.1.1
 COPY GeoLite2-Country.mmdb /usr/share/geoip/
 
 RUN set -x \
@@ -17,6 +18,7 @@ RUN set -x \
     alpine-sdk \
     perl \
   && git clone https://github.com/leev/ngx_http_geoip2_module /ngx_http_geoip2_module \
+  && git clone https://github.com/arut/nginx-ts-module.git -b v${NGINX_TS_MODULE_VERSION} /nginx-ts-module \
   && wget https://github.com/maxmind/libmaxminddb/releases/download/${MAXMIND_VERSION}/libmaxminddb-${MAXMIND_VERSION}.tar.gz \
   && tar xf libmaxminddb-${MAXMIND_VERSION}.tar.gz \
   && cd libmaxminddb-${MAXMIND_VERSION} \
@@ -79,6 +81,7 @@ RUN GPG_KEYS=13C82A63B603576156E30A4EA0EA981B66B0D967 \
     --with-openssl-opt="enable-tls1_3" \
     --with-openssl-opt=no-nextprotoneg \
     --add-dynamic-module=/ngx_http_geoip2_module \
+    --add-module=/nginx-ts-module \
     --add-dynamic-module=/nginx-rtmp-module \
 " \
     && addgroup -S nginx -g $NGINX_GUI \

@@ -1,1 +1,1 @@
-export NGX_VERSION=1.21.5
+export NGX_VERSION=1.23.4
