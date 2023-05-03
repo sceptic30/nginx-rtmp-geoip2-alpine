@@ -30,8 +30,8 @@ RUN ldconfig || :
 
 # Nginx installation 
 
-ENV NGINX_VERSION 1.21.5
-RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
+ENV NGINX_VERSION 1.23.4
+RUN GPG_KEYS=13C82A63B603576156E30A4EA0EA981B66B0D967 \
 && CONFIG="\
     --prefix=/etc/nginx \
     --sbin-path=/usr/sbin/nginx \
@@ -93,7 +93,9 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
         zlib-dev \
         linux-headers \
         curl \
-        gnupg1 \
+        gpg \
+        dirmngr \
+        gnupg \
         libxslt-dev \
         gd-dev \
         geoip-dev \
@@ -102,10 +104,9 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
     && export GNUPGHOME="$(mktemp -d)" \
     && found=''; \
     for server in \
-        ha.pool.sks-keyservers.net \
-        p80.pool.sks-keyservers.net \
         keyserver.ubuntu.com \
         pgp.mit.edu \
+        keys.openpgp.org \
     ; do \
         echo "Fetching GPG key $GPG_KEYS from $server"; \
         gpg --keyserver "$server" --keyserver-options timeout=10 --recv-keys "$GPG_KEYS" && found=yes && break; \
