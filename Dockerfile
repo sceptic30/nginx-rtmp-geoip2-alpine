@@ -7,7 +7,6 @@ ENV NGINX_GUI=$NGINX_GUI
 ENV MAXMIND_VERSION=1.11.0
 ENV NGINX_TS_MODULE_VERSION=0.1.1
 ENV NGINX_VERSION=1.29.5
-
 # Pre-copy MaxMind Database
 COPY GeoLite2-Country.mmdb /usr/share/geoip/
 
@@ -26,6 +25,14 @@ RUN set -x \
     && git clone https://github.com/arut/nginx-ts-module.git -b v${NGINX_TS_MODULE_VERSION} /nginx-ts-module \
     && git clone https://github.com/sceptic30/nginx-rtmp-module.git /nginx-rtmp-module \
     && curl -fSL https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz -o nginx.tar.gz \
+    && curl -fSL https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz.asc -o nginx.tar.gz.asc \
+    && export GNUPGHOME="$(mktemp -d)" \
+    && gpg_keys="13C82A63B603576156E30A4EA0EA981B66B0D967 43387825DDB1BB97EC36BA5D007C8D7C15D87369 D6786CE303D9A9022998DC038086060F2B718707" \
+    && for server in keyserver.ubuntu.com pgp.mit.edu keys.openpgp.org; do \
+        gpg --keyserver "$server" --keyserver-options timeout=10 --recv-keys $gpg_keys && break; \
+    done \
+    && gpg --batch --verify nginx.tar.gz.asc nginx.tar.gz \
+    && rm -rf "$GNUPGHOME" nginx.tar.gz.asc \
     && mkdir -p /usr/src \
     && tar -zxC /usr/src -f nginx.tar.gz \
     && cd /usr/src/nginx-$NGINX_VERSION \
@@ -58,6 +65,7 @@ RUN set -x \
         --with-http_stub_status_module \
         --with-http_sub_module \
         --with-http_v2_module \
+        --with-http_v3_module \
         --with-mail \
         --with-mail_ssl_module \
         --with-stream \
@@ -72,6 +80,7 @@ RUN set -x \
     && make -j$(getconf _NPROCESSORS_ONLN) \
     && make install \
     && strip /usr/sbin/nginx* \
+    && strip /usr/lib/nginx/modules/*.so \
     && runDeps="$( \
         scanelf --needed --nobanner --format '%n#p' /usr/sbin/nginx /usr/lib/nginx/modules/* 2>/dev/null \
             | tr ',' '\n' | sort -u \
@@ -81,7 +90,7 @@ RUN set -x \
     && apk del .build-deps \
     && ln -sf /dev/stdout /var/log/nginx/access.log \
     && ln -sf /dev/stderr /var/log/nginx/error.log \
-    && mkdir -p /var/www/html /etc/nginx/conf.d /usr/share/nginx \
+    && mkdir -p /var/www/html /etc/nginx/conf.d /usr/share/nginx /docker-entrypoint.d \
     && chown -R nginx:nginx /etc/nginx /var/log/nginx /var/cache/nginx /usr/share/nginx /var/www \
     && rm -rf /usr/src/* /ngx_http_geoip2_module /nginx-ts-module /nginx-rtmp-module /nginx.tar.gz
 
@@ -91,6 +100,6 @@ COPY docker-entrypoint.sh /
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 USER nginx
-EXPOSE 3080 3443
+EXPOSE 3080 3443 3443/udp
 STOPSIGNAL SIGTERM
 CMD ["nginx", "-g", "daemon off;"]

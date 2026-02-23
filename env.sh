@@ -1,1 +1,0 @@
-export NGX_VERSION=1.25.2

@@ -1,6 +1,6 @@
 # NGINX with TLSv1.3 support &amp; built-in RTMP Media Streaming Server with GeoIP2 country database
 
-[![Build Status](https://www.travis-ci.com/sceptic30/nginx-rtmp-geoip2-alpine.svg?branch=master)](https://www.travis-ci.com/sceptic30/nginx-rtmp-geoip2-alpine) ![Docker Pulls](https://img.shields.io/docker/pulls/admintuts/nginx) ![Nginx Version](https://img.shields.io/badge/Nginx-1.25.2-brightgreen)
+[![Build](https://github.com/sceptic30/nginx-rtmp-geoip2-alpine/actions/workflows/build.yml/badge.svg)](https://github.com/sceptic30/nginx-rtmp-geoip2-alpine/actions/workflows/build.yml) ![Docker Pulls](https://img.shields.io/docker/pulls/admintuts/nginx) ![Nginx Version](https://img.shields.io/badge/Nginx-1.29.5-brightgreen)
 
 ## Building The Image
 
@@ -33,7 +33,7 @@ In a docker-compose file that would look like:
 
 ```sh
   webserver:
-    image: admintuts/nginx:1.25.2-rtmp-geoip2-alpine
+    image: admintuts/nginx:1.29.5-rtmp-geoip2-alpine
     container_name: webserver
     hostname: webserver
     restart: always
@@ -69,7 +69,7 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: admintuts/nginx:1.25.2-rtmp-geoip2-alpine
+          image: admintuts/nginx:1.29.5-rtmp-geoip2-alpine
           ports:
           - containerPort: 3080
             name: nginx-http

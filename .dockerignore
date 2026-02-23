@@ -1,0 +1,9 @@
+.git
+.gitignore
+.circleci
+.travis.yml
+.dockerignore
+README.md
+LICENSE
+env.sh
+notepad.md
